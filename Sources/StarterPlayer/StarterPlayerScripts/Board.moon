@@ -4,7 +4,22 @@ export Slot
 class Board
 
   new: =>
+    @moveDirections = {
+      Vector2.new 1, 0,
+      Vector2.new -1, 0
+      Vector2.new 0, 1
+      Vector2.new 0, -1
+      Vector2.new -1, -1
+      Vector2.new 1, 1
+    }
     @initializeSlots!
+    @play!
+
+  play: =>
+    for row in *@slots
+      for slot in *row
+        if #slot\getValidMoves! > 0
+          slot.token\select!
 
   initializeSlots: =>
     @slots = {}
@@ -18,3 +33,9 @@ class Board
     return Vector3.new(
       -slot.position.y/2 + slot.position.x,
       -slot.position.y, 0) * scale + offset
+
+  getSlotAt: (position) =>
+    if position.y > 0 and position.y <= #@slots
+      row = @slots[position.y]
+      if position.x > 0 and position.x <= #row
+        row[position.x]
