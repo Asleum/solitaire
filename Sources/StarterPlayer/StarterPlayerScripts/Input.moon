@@ -6,7 +6,7 @@ class Input
 
   @waitForInput: (candidates) =>
     @@mouse.Button1Down\Wait!
-    if candidates[@mouse.Target]
-      candidates[@mouse.Target]
+    if @mouse.Target and candidates[@mouse.Target.Parent]
+      candidates[@mouse.Target.Parent]
     else
       @@waitForInput candidates

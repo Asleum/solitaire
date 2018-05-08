@@ -7,13 +7,13 @@ class Slot
     @board = board
     @position = position
 
-    @worldPosition = board\mapSlot @
-    @generateToken!
-
+    rotation = CFrame.Angles math.pi * math.random!, math.pi * 2 * math.random!, 0
+    @worldPosition = CFrame.new(board\mapSlot @) * rotation
     @object = Storage\loadSlot!
     @object.Name = string.format "Slot%i;%i", position.x, position.y
-    @object.CFrame = CFrame.new @worldPosition
+    @object\SetPrimaryPartCFrame @worldPosition
     @object.Parent = workspace
+    @generateToken!
 
   generateToken: =>
     if not @token
@@ -22,6 +22,18 @@ class Slot
   removeToken: =>
     if @token
       @token\delete!
+      @token = nil
+
+  captureToken: (slot) =>
+    token = slot.token
+    slot.token = nil
+    @token = token
+    token.object.AlignPosition.Attachment1 = @object.PrimaryPart.Attachment
+    token.object.AlignOrientation.Attachment1 = @object.PrimaryPart.Attachment
+
+  blowUpToken: =>
+    if @token
+      @token\blowUp!
       @token = nil
 
   getValidMoves: =>
@@ -33,8 +45,10 @@ class Slot
 
   select: =>
     if @object
-      @object.BrickColor = BrickColor.new "Bright blue"
+      for part in *@object\GetChildren!
+        part.Material = "Neon" if part\IsA "BasePart"
 
   deselect: =>
     if @object
-      @object.BrickColor = BrickColor.new "Ghost grey"
+      for part in *@object\GetChildren!
+        part.Material = "Plastic" if part\IsA "BasePart"

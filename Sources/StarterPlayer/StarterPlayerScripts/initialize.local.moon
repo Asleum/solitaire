@@ -11,7 +11,7 @@ environments = {getfenv!}
 modules = {}
 
 -- Import shared function : should be called at the beginning of each module.
-shared.import = -> table.insert(environments, getfenv 2)
+shared.import = -> table.insert environments, (getfenv 2)
 
 -- Recursively loads this element's children
 findModules = (source) ->

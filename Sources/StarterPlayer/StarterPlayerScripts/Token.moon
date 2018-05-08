@@ -7,17 +7,31 @@ class Token
     @slot = slot
 
     @object = Storage\loadToken!
-    @object.CFrame = CFrame.new slot.worldPosition
+    @object\SetPrimaryPartCFrame slot.worldPosition
+    @object\WaitForChild("AlignPosition").Attachment1 = slot.object.PrimaryPart.Attachment
+    @object\WaitForChild("AlignOrientation").Attachment1 = slot.object.PrimaryPart.Attachment
     @object.Parent = workspace
+    @object\MakeJoints!
 
   delete: =>
+     if @object
+       @object\Destroy!
+
+  blowUp: =>
     if @object
-      @object\Destroy!
+      @object.AlignPosition.Enabled = false
+      @object.AlignOrientation.Enabled = false
+      @object\BreakJoints!
+      spawn ->
+        wait 3
+        @object\Destroy!
 
   select: =>
     if @object
-      @object.BrickColor = BrickColor.new "Bright blue"
+      for part in *@object\GetChildren!
+        part.Material = "Neon" if part\IsA "BasePart"
 
   deselect: =>
     if @object
-      @object.BrickColor = BrickColor.new "Smoky grey"
+      for part in *@object\GetChildren!
+        part.Material = "Plastic" if part\IsA "BasePart"

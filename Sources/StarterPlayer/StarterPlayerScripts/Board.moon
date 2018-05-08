@@ -46,7 +46,8 @@ class Board
     offset = Vector3.new -4, 18, 0
     return Vector3.new(
       -slot.position.y/2 + slot.position.x,
-      -slot.position.y, 0) * scale + offset
+      -slot.position.y,
+      0) * scale + offset
 
   getSlotAt: (position) =>
     if position.y > 0 and position.y <= #@slots
