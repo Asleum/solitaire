@@ -30,5 +30,4 @@ for environment in *environments
 
 -- Initialize the game
 Board!
-Board!
 true
