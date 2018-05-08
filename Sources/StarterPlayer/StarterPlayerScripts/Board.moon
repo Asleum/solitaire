@@ -1,5 +1,5 @@
 shared.import!
-export Slot
+export Input, Slot
 
 class Board
 
@@ -16,10 +16,24 @@ class Board
     @play!
 
   play: =>
+    selectableSlots = {}
     for row in *@slots
       for slot in *row
         if #slot\getValidMoves! > 0
           slot.token\select!
+          selectableSlots[slot.token.object] = slot
+    chosen = Input\waitForInput selectableSlots
+    slot.token\deselect! for _, slot in pairs selectableSlots
+
+    selectableMoves = {}
+    for move in *chosen\getValidMoves!
+      move.destination\select!
+      selectableMoves[move.destination.object] = move
+    chosen = Input\waitForInput selectableMoves
+    move.destination\deselect! for _, move in pairs selectableMoves
+    chosen\apply!
+    @play!
+
 
   initializeSlots: =>
     @slots = {}

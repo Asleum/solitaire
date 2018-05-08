@@ -16,8 +16,8 @@ class Token
 
   select: =>
     if @object
-      @object.Reflectance = .5
+      @object.BrickColor = BrickColor.new "Bright blue"
 
   deselect: =>
     if @object
-      @object.Reflectance = 0
+      @object.BrickColor = BrickColor.new "Smoky grey"

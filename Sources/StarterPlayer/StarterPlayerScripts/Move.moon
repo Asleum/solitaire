@@ -15,6 +15,6 @@ class Move
 
   apply: =>
     if @hopOver and @destination and @slot
-      @slot.removeToken
-      @hopOver.removeToken
-      @destination.generateToken
+      @slot\removeToken!
+      @hopOver\removeToken!
+      @destination\generateToken!

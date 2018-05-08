@@ -30,3 +30,11 @@ class Slot
       return [move for move in *moves when move\checkMove!]
     else
       {}
+
+  select: =>
+    if @object
+      @object.BrickColor = BrickColor.new "Bright blue"
+
+  deselect: =>
+    if @object
+      @object.BrickColor = BrickColor.new "Ghost grey"
