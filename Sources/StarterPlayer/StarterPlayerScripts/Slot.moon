@@ -1,0 +1,3 @@
+shared.import!
+
+class Slot
